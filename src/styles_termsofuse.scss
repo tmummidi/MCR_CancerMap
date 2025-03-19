@@ -1,0 +1,28 @@
+/*
+ * TERMS OF USE
+ * this isn't a regular modal, but a DIV which covers up the search UI, map, and demographic readouts
+ * so the visitor may still read the intro text and the Learn section, but not operate the search/download systems
+ */
+
+#termsofusemodal {
+    /* the size and position are set in code, see initTermsOfUse() which positions and sizes this DIV, and hides it when terms are accepted */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 1000;
+
+    background-color: white;
+
+    > div {
+        width: 80%;
+
+        margin: auto;
+        padding: 1em;
+
+        border: 1px solid #293985;
+        border-radius: 5px;
+    }
+}

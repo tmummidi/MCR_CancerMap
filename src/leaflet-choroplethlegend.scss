@@ -1,0 +1,102 @@
+/*
+ * SEE ALSO the index.scss for .leaflet-choroplethlegend-control
+ * where we customize the icons etc
+ */
+
+@use 'index.scss' as *;
+
+.leaflet-choroplethlegend-control {
+	/* styles for the button and the content */
+	border-radius: 4px;
+	background-color: white;
+
+    /* basic expand/collapse behavior; showing the button or else the content is controlled by assigning this class */
+    &.leaflet-choroplethlegend-collapsed {
+        .leaflet-choroplethlegend-button { display: block; }
+        .leaflet-choroplethlegend-content { display: none; }
+    }
+    &.leaflet-choroplethlegend-expanded {
+        .leaflet-choroplethlegend-button { display: none; }
+        .leaflet-choroplethlegend-content { display: block; }
+    }
+
+	/* our expand button, when closed */
+	.leaflet-choroplethlegend-button {
+    	display: block;
+    	width: 30px;
+    	height: 30px;
+
+    	cursor: pointer;
+
+		text-align: center;
+		i {
+			font-size: 20px;
+			line-height: 30px;
+		}
+	}
+
+	/* our content, when expanded */
+	.leaflet-choroplethlegend-content {
+		padding: 4px 10px 10px 10px;
+
+		position: relative;
+		i.leaflet-choroplethlegend-closebutton {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+
+			color: #666666;
+			cursor: pointer;
+
+		    top: -10px;
+		    right: 3px;
+		    font-size: 25px;
+		}
+
+		.leaflet-choroplethlegend-headtext {
+			font-size: 16px;
+		}
+
+		select.leaflet-choroplethlegend-select {
+			width: 200px;
+	        border-radius: 5px;
+	        background-color: white;
+	        color: #000000;
+	        border: 1px solid #666666;
+	        padding: 2px 5px;
+			font-size: 16px;
+
+			margin-bottom: 5px;
+		}
+
+		.leaflet-choroplethlegend-legendgradient {
+			width: 200px;
+			height: 20px;
+			background-image: linear-gradient(to right, white, black); /* this is a fallback; colors will be set by performSearchMap() and CHOROPLETH_OPTIONS */
+		}
+
+		.leaflet-choroplethlegend-minvalue, .leaflet-choroplethlegend-maxvalue {
+			font-size: 16px;
+		}
+		.leaflet-choroplethlegend-minvalue {
+			float: left;
+		}
+		.leaflet-choroplethlegend-maxvalue {
+			float: right;
+		}
+	}
+
+	/* hacks for print mode */
+	&.leaflet-choroplethlegend-printmode {
+		.leaflet-choroplethlegend-headtext , .leaflet-choroplethlegend-closebutton {
+			display: none;
+		}
+
+		select.leaflet-choroplethlegend-select {
+			border: none !important;
+			-moz-appearance: none;
+			-webkit-appearance: none;
+			appearance: none;
+		}
+	}
+}

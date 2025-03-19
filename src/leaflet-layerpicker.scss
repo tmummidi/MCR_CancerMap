@@ -1,0 +1,75 @@
+/*
+ * SEE ALSO the index.scss for .leaflet-layerpicker-control
+ * where we customize the icons etc
+ */
+
+@use 'index.scss' as *;
+
+.leaflet-layerpicker-control {
+	/* styles for the button and the content */
+	border-radius: 4px;
+	background-color: white;
+
+    /* basic expand/collapse behavior; showing the button or else the content is controlled by assigning this class */
+    &.leaflet-layerpicker-collapsed {
+        .leaflet-layerpicker-button { display: block; }
+        .leaflet-layerpicker-content { display: none; }
+    }
+    &.leaflet-layerpicker-expanded {
+        .leaflet-layerpicker-button { display: none; }
+        .leaflet-layerpicker-content { display: block; }
+    }
+
+	/* our expand button, when closed */
+	.leaflet-layerpicker-button {
+    	display: block;
+    	width: 30px;
+    	height: 30px;
+
+    	cursor: pointer;
+
+		text-align: center;
+		i {
+			font-size: 20px;
+			line-height: 30px;
+		}
+	}
+
+	/* our content, when expanded */
+	.leaflet-layerpicker-content {
+		padding: 4px 10px 4px 10px;
+
+		position: relative;
+		i.leaflet-layerpicker-closebutton {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+
+			color: #666666;
+			cursor: pointer;
+
+		    top: -10px;
+		    right: 3px;
+		    font-size: 25px;
+		}
+
+		.leaflet-layerpicker-headtext {
+			font-size: 16px;
+            min-width: 150px;
+		}
+
+        label.leaflet-layerpicker-layerentry {
+            display: block;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 0;
+
+            input.leaflet-layerpicker-checkbox {
+                margin-right: 0.5em;
+            }
+            span.leaflet-layerpicker-name {
+            }
+        }
+    }
+}
+

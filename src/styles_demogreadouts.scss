@@ -1,0 +1,53 @@
+#demographic-tables {
+    table {
+        width: 100%;
+        margin-top: 5px;
+
+        margin-bottom: 20px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        span.title, span.subtitle {
+            color: #000000;
+        }
+
+        tr:nth-child(odd) {
+            td, th[scope] {
+                background-color: #feecd4;
+            }
+        }
+
+        td:nth-child(2), td:nth-child(3) {  /* CTA, Statewide, not Nation */
+            border-right: 5px solid white;
+        }
+        th[data-region="state"], td[data-region="state"] {
+            color: #000000;
+        }
+        th[data-region="nation"], td[data-region="nation"] {
+            color: #000000;
+        }
+
+        th[scope] {  /* TH must be used for semantics, esp screen readers and scope, but we want them to look like regular TDs */
+            font-weight: 400;
+            text-align: left;
+        }
+
+        /* help make the column widths more consistent */
+        tbody th {
+            width: 40%;
+        }
+        tbody td {
+            width: 20%;
+        }
+    }
+
+    @media print {
+        page-break-before: always;
+    }
+
+    > span[role="heading"] {
+        padding-right: 0.3rem;
+        padding-left: 0.3rem;
+    }
+}

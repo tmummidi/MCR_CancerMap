@@ -1,0 +1,167 @@
+ZoneIDOrig,County,CountyCode
+A9001zg,Jackson,29095
+A9002zg,Jasper,29097
+A9003zg,Clay,29047
+A9005zg,Jackson,29095
+A9006zg,Jackson,29095
+A9007zg,Greene,29077
+A9008zg,Greene,29077
+A9009zg,Jackson,29095
+A9010zg,Jefferson,29099
+A9011zg,St. Louis,29510
+A9012zg,Jefferson,29099
+A9013zg,St. Louis,29510
+A9014zg,St. Louis,29189
+A9016zg,Jasper,29097
+A9017zg,St. Louis,29510
+A9018zg,Boone,29019
+A9019zg,St. Louis,29189
+A9020zg,St. Louis,29510
+A9021zg,Clay,29047
+A9022zg,St. Louis,29189
+A9023zg,St. Louis,29189
+A9024zg,St. Charles,29183
+A9025zg,Greene,29077
+A9026zg,St. Louis,29189
+A9027zg,St. Louis,29189
+A9028zg,St. Louis,29510
+A9029zg,Greene,29077
+A9030zg,Greene,29077
+A9031zg,Franklin,29071
+A9032zg,Jefferson,29099
+A9033zg,St. Louis,29189
+A9034zg,St. Louis,29189
+A9035zg,Jackson,29095
+A9036zg,St. Charles,29183
+A9037zg,St. Louis,29189
+A9038zg,St. Louis,29510
+A9039zg,St. Louis,29189
+A9040zg,Clay,29047
+A9041zg,Jackson,29095
+A9042zg,St. Louis,29189
+A9043zg,St. Louis,29189
+A9044zg,St. Charles,29183
+A9045zg,St. Louis,29189
+A9046zg,Jackson,29095
+A9047zg,St. Louis,29189
+A9048zg,Boone,29019
+A9049zg,Jackson,29095
+A9050zg,St. Louis,29189
+A9051zg,Jackson,29095
+A9052zg,Jackson,29095
+A9053zg,St. Louis,29189
+A9054zg,Boone,29019
+A9055zg,Jackson,29095
+A9056zg,St. Charles,29183
+A9057zg,Clay,29047
+A9058zg,St. Louis,29189
+A9059zg,Jackson,29095
+A9060zg,St. Charles,29183
+A9061zg,St. Charles,29183
+B0001zg,Callaway,29027
+B0001zg,Montgomery,29139
+B0002zg,Adair,29001
+B0002zg,Knox,29103
+B0002zg,Putnam,29171
+B0002zg,Scotland,29199
+B0002zg,Clark,29045
+B0002zg,Schuyler,29197
+B0002zg,Sullivan,29211
+B0003zg,Chariton,29041
+B0003zg,Howard,29089
+B0003zg,Macon,29121
+B0003zg,Randolph,29175
+B0004zg,Cape Girardeau,29031
+B0006zg,Saline,29195
+B0006zg,Pettis,29159
+B0008zg,Dade,29057
+B0008zg,Cedar,29039
+B0008zg,Lawrence,29109
+B0009zg,Cooper,29053
+B0009zg,Moniteau,29135
+B0009zg,Morgan,29141
+B0012zg,Daviess,29061
+B0012zg,Carroll,29033
+B0012zg,Caldwell,29025
+B0012zg,Clinton,29049
+B0012zg,Livingston,29117
+B0015zg,Dent,29065
+B0015zg,Iron,29093
+B0015zg,Reynolds,29179
+B0015zg,Washington,29221
+B0018zg,Carter,29035
+B0018zg,Shannon,29203
+B0018zg,Texas,29215
+B0018zg,Oregon,29149
+B0018zg,Ripley,29181
+B0019zg,Monroe,29137
+B0019zg,Marion,29127
+B0019zg,Lewis,29111
+B0019zg,Shelby,29205
+B0025zg,Lincoln,29113
+B0027zg,Barry,29009
+B0027zg,McDonald,29119
+B0029zg,Camden,29029
+B0029zg,Hickory,29085
+B0030zg,Laclede,29105
+B0030zg,Wright,29229
+B0031zg,DeKalb,29063
+B0031zg,Gentry,29075
+B0031zg,Linn,29115
+B0031zg,Mercer,29129
+B0031zg,Grundy,29079
+B0031zg,Harrison,29081
+B0031zg,Worth,29227
+B0032zg,Bates,29013
+B0032zg,Barton,29011
+B0032zg,Vernon,29217
+B0034zg,Audrain,29007
+B0034zg,Pike,29163
+B0034zg,Ralls,29173
+B0035zg,Cole,29051
+B0036zg,Bollinger,29017
+B0036zg,Perry,29157
+B0036zg,Stoddard,29207
+B0039zg,St. Clair,29185
+B0039zg,Benton,29015
+B0039zg,Henry,29083
+B0044zg,Pulaski,29169
+B0046zg,Dunklin,29069
+B0046zg,New Madrid,29143
+B0046zg,Pemiscot,29155
+B0051zg,Miller,29131
+B0051zg,Gasconade,29073
+B0051zg,Maries,29125
+B0051zg,Osage,29151
+B0053zg,Butler,29023
+B0053zg,Madison,29123
+B0053zg,Wayne,29223
+B0063zg,Mississippi,29133
+B0063zg,Scott,29201
+B0065zg,St. Francois,29187
+B0066zg,Platte,29165
+B0074zg,Holt,29087
+B0074zg,Andrew,29003
+B0074zg,Atchison,29005
+B0074zg,Nodaway,29147
+B0076zg,Crawford,29055
+B0076zg,Phelps,29161
+B0081zg,Jefferson,29099
+B0081zg,Ste. Genevieve,29186
+B0082zg,Christian,29043
+B0083zg,Johnson,29101
+B0087zg,Stone,29209
+B0087zg,Taney,29213
+B0088zg,Newton,29145
+B0094zg,Franklin,29071
+B0094zg,Warren,29219
+B0095zg,Lafayette,29107
+B0095zg,Ray,29177
+B0097zg,Dallas,29059
+B0097zg,Polk,29167
+B0097zg,Webster,29225
+B0100zg,Douglas,29067
+B0100zg,Howell,29091
+B0100zg,Ozark,29153
+B0107zg,Buchanan,29021
+B0108zg,Cass,29037

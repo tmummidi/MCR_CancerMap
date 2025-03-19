@@ -1,0 +1,29 @@
+/*
+ * BUTTONS
+ * a lot of overriding BS's styles; they come with a lot of baggage such as removing underliens on hyperlinks
+ */
+
+.btn {
+    border-radius: 4px;
+    padding: 7px 15px 5px 16px;
+
+    &.btn-default {
+        background-color: white;
+        color: #000000;
+        border: 1px solid #000000;
+
+        &:hover, &:active {
+            color: #f99e26;
+        }
+    }
+    &.btn-alternate {
+        background-color: #6472B9;
+        color: white;
+        border: 1px solid #000000;
+
+        &:hover, &:active {
+            background-color: #e6eaff;
+            color: #000000;
+        }
+    }
+}

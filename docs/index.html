@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Registry</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./static/ribbon_purple_favicon.png" />
+
+    <!-- jQuery and Bootstrap -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <!-- Leaflet and TopoJSON -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+    <script type="text/javascript" src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+
+    <!-- Leaflet-PIP for point-in-polygon calculation -->
+    <script type="text/javascript" src="https://unpkg.com/@mapbox/leaflet-pip@1.1.0/leaflet-pip.js"></script>
+
+    <!-- Papa Parse CSV parser -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.7/papaparse.min.js"></script>
+
+    <!-- Highcharts -->
+    <script type="text/javascript" src="https://code.highcharts.com/9.0/highcharts.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/9.0/modules/accessibility.js"></script>
+
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  
+    <!-- Montserrat font -->
+    <link rel="stylesheet" type="text/css" media="all" href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap" />
+
+    <!-- Tooltipster for awesome tooltips -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/tooltipster@4.2.6/dist/css/tooltipster.bundle.min.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/tooltipster@4.2.6/dist/js/tooltipster.bundle.min.js"></script>
+
+    <!-- polyfills (tip: es6-promise recommended for best IE compat) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/@ungap/url-search-params"></script>
+    <script type="text/javascript" src="https://unpkg.com/es7-object-polyfill"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/polyfill-object-assign@1.0.0/index.min.js"></script>
+
+    <!-- Google Analytics; see also logGoogleAnalyticsEvent() calls where we log a lot of stuff -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXXXX-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-XXXXXXXXX-1');
+    </script>
+
+    <!-- our own awesomesauce -->
+    <link rel="stylesheet" type="text/css" href="index.css?Mon_Mar_17_2025_10_56_00_GMT_0500__Central_Daylight_Time_" />
+    <script type="text/javascript" src="index.js?Mon_Mar_17_2025_10_56_00_GMT_0500__Central_Daylight_Time_"></script>
+</head>
+<body>
+
+    <!--
+    section: top intro text, logo, and so on
+    -->
+
+    <div class="container noprint">
+        <nav class="navbar navbar-light">
+            <div id="logo-img" style="display:flex">
+                
+                <img src="./static/ribbon_purple.png" alt="Health Maps Logo" />
+                <div style="display:block">
+                    <h1 class="site-title-1" aria-label="Health Maps" tabindex="0"><span class="stateName">[REPLACE STATE/REGISTRY]</span></h1>
+                    <h1 class="site-title-2" aria-hidden="true">Health Maps</h1>
+                </div>
+            </div>
+            <!-- <div id="logo-img">
+                <img src="./static/logo.png" alt="Health Maps Logo" />
+            </div> -->
+        </nav>
+    </div><!--/container section-->
+
+    <div class="container noprint">
+        <p class="intro-text">
+            <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Maps is an interactive mapping tool of cancer data for <span class="numZones">[REPLACE NUM_ZONES]</span> cancer reporting zones in <span class="stateName">[REPLACE STATE/REGISTRY]</span>. You can map cancer incidence for the <span class="numOfCancerSites">[REPLACE NUM_CANCER_SITES]</span> most common invasive cancer sites and for all sites combined and filter by sex and race/ethnicity. <a class="btn btn-sm btn-alternate" id="visitlearn" href="#learn-text">Visit Learn</a> to review methodology, data sources, and more.
+        </p>
+    </div><!--/container section-->
+
+
+    <!--
+    section: above the map and filters
+    Download and Print, and Cancer Incidence to fill space
+    -->
+    <div class="container noprint" id="above-map">
+        <div class="row">
+            <div class="col-md">
+                <h2 class="nomargin" tabindex="0">Cancer Incidence <i class="fa fa-info-circle" aria-hidden="true" data-tooltip="cases"></i></h2>
+            </div>
+            <div class="col-md right">
+                <!-- download button is atypical: toggles an epxandind DIV within itself, of the real download options -->
+                <button class="btn" id="downloadbutton" aria-label="Show options for downloading the map and data" aria-haspopup="true" aria-controls="downloadoptions">
+                    <i class="fa fa-download"></i> Download <i class="fa fa-caret-down"></i>
+                </button>
+
+                <div id="downloadoptions" class="d-none" aria-expanded="false">
+                    <a href="javascript:void(0);" data-export="map" title="Download a PNG image of the map"><i class="fa fa-download"></i> Download Map</a>
+                    <!-- <a href="javascript:void(0);" target="_blank" data-export="zonedata" title="Download data for the selected CTA Zone"><i class="fa fa-download"></i> Zone Data</a> -->
+                    <!-- <a href="./static/downloads/all_zones.zip" target="_blank" data-export="alldata" title="Download data for all CTA Zones"><i class="fa fa-download"></i> All Data</a> -->
+                </div>
+
+                <button class="btn btn-alternate" id="printpagebutton" onClick="window.print();"><i class="fa fa-print"></i> Print Page</button>
+            </div>
+        </div>
+    </div><!--/container section-->
+
+
+    <!--
+    section: filters and map
+    -->
+    <div class="container" id="search-and-map">
+        <div class="row">
+            <div class="col-md noprint">
+                <!--
+                that text in these pickers forms the source of truth for labeling values via getLabelFor(), e.g. getLabelFor('race', 'W') => 'White'
+                That is to say, editing these select options will change the labels sitewide whereever getLabelFor() is used. cool, eh?
+                -->
+                <div class="data-filters">
+                    <div class="input-group">
+                        <label for="data-filters-type">Area Type</label>
+                        <select name="type" id="data-filters-type" aria-label="Select area type to report">
+                            <!-- see initDataFilters() where we create options based on constants in index.js -->
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="data-filters-address">Location Search
+                            <i class="fa fa-info-circle" aria-hidden="true" data-tooltip="location"></i>
+                            <span class="warnmessage d-none" style="padding: 1px 5px; display: block; margin: 0 0 5px 0;"></span>
+                        </label>
+                        <input class="form-control" type="text" name="address" id="data-filters-address" placeholder="Search by address or city" aria-label="Enter address to select an area to report" />
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+  
+                    <div class="input-group">
+                        <label for="data-filters-site">Time Period</label>
+                        <select name="time" id="data-filters-time" aria-label="Select the time period to report">
+                            <!-- see initDataFilters() where we create options based on constants in index.js -->
+                        </select>
+                    </div>
+  
+                    <div class="input-group">
+                        <label for="data-filters-site">Cancer Site/Type</label>
+                        <select name="site" id="data-filters-site" aria-label="Select the cancer site to report">
+                            <!-- see initDataFilters() where we create options based on constants in index.js -->
+                        </select>
+                    </div>
+  
+                    <div class="input-group">
+                        <label for="data-filters-sex">Sex <i class="fa fa-info-circle" aria-hidden="true" data-tooltip="sex"></i></label>
+                        <select name="sex" id="data-filters-sex" aria-label="Select the sex to report">
+                            <!-- see initDataFilters() where we create options based on constants in index.js -->
+                        </select>
+                    </div>
+  
+                    <div class="input-group">
+                        <label for="data-filters-race">Race/Ethnicity <i class="fa fa-info-circle" aria-hidden="true" data-tooltip="race"></i></label>
+                        <select name="race" id="data-filters-race" aria-label="Select the race/ethnicity to report">
+                            <!-- see initDataFilters() where we create options based on constants in index.js -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <div class="printonly" id="logo-img-print" aria-hidden="true">
+                    <img src="./static/ribbon_purple.png" alt="Health Maps Logo" />
+                        <div style="display:block">
+                            <h1 class="site-title-1" aria-label="Health Maps" tabindex="0"><span class="stateName">[REPLACE STATE/REGISTRY]</span></h1>
+                            <h1 class="site-title-2" aria-hidden="true">Health Maps</h1>
+                        </div>
+                </div>
+
+                <div class="map" id="map" aria-hidden="true"></div>
+            </div>
+        </div>
+    </div><!--/container section-->
+
+
+    <!--
+    section: filter summary
+    as buttons which can clear each filter
+    -->
+    <div class="container" id="filters-and-aairbarchart">
+        <div class="row">
+            <div class="col-md-6 col-lg-4">
+                <!-- the filter summary see performSearchShowFilters() -->
+                <div class="data-filters-summary" role="heading"></div>
+            </div><!--/left side-->
+            <div class="col-md-6 col-lg-8" id="incidence-barchart-section">
+                <!-- incidence rate barchart by race and sex -->
+                <span role="heading">
+                    <span class="title" tabindex="0">Age Adjusted Incidence Rate</span>
+                    <br/>
+                    <span class="subtitle" tabindex="0"><span data-statistic="cancersite">All Cancer Sites</span> - <span data-statistics="ctaname">Statewide</span> <span data-statistics="ctaid"></span></span>
+                </span>
+
+                <div class="incidence-barchart" id="incidence-barchart" aria-label="Chart of AAIR by race and sex for the selected filters"></div>
+            </div><!--/right side-->
+        </div>
+    </div><!--/container section-->
+
+
+    <!--
+    section: incidence readouts
+    overall AAIR and cases summary table, for CTA, Statewide and Nationwide
+    -->
+    <div class="container" id="incidence-readouts">
+        <table class="table-sm">
+            <thead>
+                <tr>
+                    <th class="left"><span class="title" tabindex="0">Cancer Statistics <i class="fa fa-info-circle" aria-hidden="true" data-tooltip="source"></i></span></th>
+                    <th scope="col">Cases</th>
+                    <th scope="col" colspan="2">Age Adjusted Incidence Rate (95% LCI, 95% UCI) <i class="fa fa-info-circle" aria-hidden="true" data-tooltip="aaircitable"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-region="cta">
+                    <th scope="row" class="typeName">Zone</th>
+                    <td class="center"><span data-region="cta" data-statistic="cases"></span></td>
+                    <td class="center"><span data-region="cta" data-statistic="aair"></span> <span data-region="cta" data-statistic="lciuci"></span></span></td>
+                    <td class="d-none d-md-table-cell ucilcicandlechartcell"><span class="ucilcicandlechart" data-region="cta"></span></td>
+                </tr>
+                <tr data-region="state">
+                    <th scope="row">Statewide</th>
+                    <td class="center"><span data-region="state" data-statistic="cases"></span></td>
+                    <td class="center"><span data-region="state" data-statistic="aair"></span> <span data-region="state" data-statistic="lciuci"></span></span></td>
+                    <td class="d-none d-md-table-cell ucilcicandlechartcell"><span class="ucilcicandlechart" data-region="state"></span></td>
+                </tr>
+                <tr data-region="nation">
+                    <th scope="row">Nationwide</th>
+                    <td class="center"><span data-region="nation" data-statistic="cases"></span></td>
+                    <td class="center"><span data-region="nation" data-statistic="aair"></span> <span data-region="nation" data-statistic="lciuci"></span></td>
+                    <td class="d-none d-md-table-cell ucilcicandlechartcell"><span class="ucilcicandlechart" data-region="nation"></span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="small">
+          To ensure confidentiality and stable statistical rates, cancer incidence rates are not reported if based on fewer than <span class="reportingMinCases">[REPLACE REPORTING MIN CASES]</span> cancer cases. Distributions of selected population demographic factors are also provided for each zone. These data are from the decennial U.S. Census or the Census’s American Community Survey.
+        </p>
+    </div><!--/container section-->
+
+
+    <!--
+    section: demographic readouts
+    for the CTA and Statewide and Nationwide, broken up by type of demographic
+    see initDemographicTables() and DEMOGRAPHIC_TABLES where tables are laid out here in this DIV
+    see performSearchDemographics() where those tables' values are filled in
+    -->
+    <div class="container" id="demographic-tables">
+        <span role="heading">
+            <span class="title" tabindex="0" aria-label="Name of area reported"><span data-statistics="ctaname">Statewide</span> <span data-statistics="ctaid"></span></span>
+            <br/>
+        </span>
+    </div><!--/container section-->
+
+
+    <!--
+    section: learn
+    a tab-set for FAQ, methodology, about us, ...
+    with a spacer above it
+    -->
+    <div class="container learn-spacer noprint">
+        <hr />
+    </div>
+
+    <div class="container learn-text noprint" id="learn-text">
+        <h2 class="title" role="header">Learn</h2>
+
+        <ul class="nav nav-pills nav-justified">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#learn-about">About</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#learn-method">Methodology</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#learn-faq">FAQs</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#learn-glossary">Definitions</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane container active" id="learn-about">
+                <p>
+                    The <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Maps project aims to provide data for geographies beyond county-level statistics to better serve cancer control, public health, and policy efforts.
+                </p>
+                <p>
+                    <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Maps allows users to interactively map health data for <span class="stateName">[REPLACE STATE/REGISTRY]</span> at a geographic level called zones, which are aggregates of census tracts. We have used a data-driven approach to define <span class="numZones">[REPLACE NUM_ZONES]</span> zones for <span class="stateName">[REPLACE STATE/REGISTRY]</span>, based on similar characteristics (poverty, urbanicity, racial/ethnic minority composition) and a minimum of 50,000 residents. These areas are generally smaller than county, but larger than census tract. Zones vary in population size from <span class="minZonePop">[REPLACE MINIMUM ZONE POPULATION]</span> to <span class="maxZonePop">[REPLACE MAXIMUM ZONE POPULATION]</span> with the number of census tracts ranging from <span class="minTractsPerZone">[REPLACE MINIMUM TRACTS PER ZONE]</span> to <span class="maxTractsPerZone">[REPLACE MAXIMUM TRACTS PER ZONE]</span>.
+                </p>
+                <p>
+                    <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Maps include 5-year and 10-year cancer incidence rates based on the most current data for the <span class="numOfCancerSites">[REPLACE NUM_CANCER_SITES]</span> most common invasive cancer sites and for all sites combined by sex and race/ethnicity (<span class="confirmRaceList">[CONFIRM RACE LIST]</span>). It also includes selected population demographic data based on 2010 Census and 2015-2019 American Community Survey data. Cancer incidence rates will be updated annually as more current data become available.
+                </p>
+                <p class="title">Project Team</p>
+                <p>
+                    <!-- <a target="_blank" href="https://dhss.delaware.gov/dph/dcr/home.html">Delaware Cancer Registry</a> -->
+                     <a target="_blank" href=""><span class="stateRegistry">[REPLACE REGISTRY]</span></a>
+                    <br/>
+                    <a target="_blank" href="http://seer.cancer.gov">National Cancer Institute</a>
+                    <br/>
+                    <a target="_blank" href="https://www.westat.com/project/using-gis-interpret-spatial-context-and-cancer-risk">Westat, Inc.</a>
+                </p>
+                <p class="title">Funding</p>
+                <p class="fundingSource">[REPLACE FUNDING SOURCE]</p>
+                <p>National Cancer Institute</p>
+            </div><!--/tab-pane -->
+            <div class="tab-pane container" id="learn-method">
+                <p>
+                    On this website, data are shown by cancer reporting zone. These zones have been designed so that they have a minimum population, have similar demographic and socioeconomic characteristics, and are geographically compact (they minimize the distance between different parts of the zone). The minimum population for each zone is 50,000 people.
+                </p>
+                <p>
+                    Counties with larger populations (more than 100,000 people) were divided into multiple zones by combining adjacent census tracts. For the rest of the state, adjacent counties and parts of counties were combined to form zones. Three demographic and socioeconomic characteristics were used to determine similarity: the percent minority population (percent of the population who are not non-Hispanic White), percent of the population with incomes below poverty, and the proportion of the population living in urban and rural areas.
+                </p>
+                <p>
+                    We used population data from Census 2010 and Census 2010 tract geographies to construct the zones. Poverty data came from the American Community Survey 2012-2016 5-year data. We used a software zone design program called <a href="https://www.geodata.soton.ac.uk/software/AZTool/" target="_blank">AZTool</a> to identify aggregations of adjacent tracts and counties that optimize the three objectives: a target population of 50,000, geographic compactness, and similarity in terms of minority population, poverty, and urbanicity characteristics
+                </p>
+            </div><!--/tab-pane -->
+            <div class="tab-pane container" id="learn-faq">
+                <div class="faqs_toggle"><button class="pointer">Expand all FAQs</button></div>
+    
+                <div class="usa-accordion">
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq1">
+                        What is a census tract aggregation zone?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="usa-accordion__content" hidden="">
+                        Census tract aggregation zones are developed based on combining adjacent census tracts on the basis of similarity in population sociodemographic characteristics: poverty, rurality, and racial/ethnic minority (i.e., non-White) composition. Zones are required to have a minimum population of 50,000. In total, there are <span class="numZones">[REPLACE NUM_ZONES]</span> zones for <span class="stateName">[REPLACE STATE/REGISTRY]</span>. Zones vary in population size from <span class="minZonePop">[REPLACE MINIMUM ZONE POPULATION]</span> to <span class="maxZonePop">[REPLACE MAXIMUM ZONE POPULATION]</span> with the number of census tracts ranging from <span class="minTractsPerZone">[REPLACE MINIMUM TRACTS PER ZONE]</span> to <span class="maxTractsPerZone">[REPLACE MAXIMUM TRACTS PER ZONE]</span>. These areas are generally smaller than a county, but larger than census tract to help provide additional options for understanding disease burden and better facilitate public health and policy planning.
+                    </div>
+    
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq2">
+                        Who developed the census tract aggregation zones?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="usa-accordion__content" hidden="">
+                        The census tract aggregation zones were developed by the <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Maps team including partners at Westat and the National Cancer Institute as part of a collaborative effort to provide cancer data at small (generally smaller than county) area levels. Stakeholder input was gathered and incorporated in the development process.
+                    </div>
+
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq2">
+                        What are the benefits of using these census tract aggregation zones?
+                        </button>
+                    </h2>
+                    <div id="faq12" class="usa-accordion__content" hidden="">
+                        Counties in <span class="stateName">[REPLACE STATE/REGISTRY]</span> can span up to hundreds of miles and include large and diverse populations or cover sparsely populated rural areas. Surveillance of cancer burden at these large geographic scales may not be meaningful nor adequate for identifying areas with higher disease rates. This information can be used by cancer centers, healthcare organizations, community organizations, and policy makers better serve cancer control, public health, and policy efforts.
+                    </div>
+
+    
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq3">
+                        What is the <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Registry?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="usa-accordion__content" hidden="">
+                        <span class="aboutBlurb">[REPLACE ABOUT BLURB]</span>
+                    </div>
+
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq4">
+                        How did you choose which cancer sites to include?
+                        </button>
+                    </h2>
+
+                    <div id="faq13" class="usa-accordion__content" hidden="">
+                        As we are reporting cancer incidence rates for small areas, the minimum reporting requirements allow us to report rates for the <span class="numOfCancerSites">[REPLACE NUM_CANCER_SITES]</span> most common invasive cancer sites and for all sites combined.
+                    </div>
+    
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq4">
+                        Will the cancer incidence data be updated?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="usa-accordion__content" hidden="">
+                        We plan to update <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Maps to include the most current cancer incidence data as they become available, typically in the Spring of each year.
+                    </div>
+    
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq5">
+                        Why are cancer incidence data available only through 2016? Why are population sociodemographic data only reported for 2012-2016?
+                        </button>
+                    </h2>
+					<h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq4b">
+                        What is the source of the cancer incidence data?
+                        </button>
+                    </h2>
+                    <div id="faq4b" class="usa-accordion__content" hidden="">
+                        Zone and statewide incidence data come from <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Registry.  <span class="nationalCancerDataSource">[REPLACE NATIONAL CANCER DATA SOURCE INFO]</span>
+                    </div>
+                    <div id="faq5" class="usa-accordion__content" hidden="">
+                        It takes several years for cancer incidence data for an entire population to be considered "complete," that is, when a cancer registry is confident that all new cases of cancer have been reported. Selected population sociodemographic data and population estimates for calculating cancer incidence rates are from the 2010 Census short form, the most recent year of complete census data. Additional sociodemographic data are from the 2012-2016 American Community Survey; although more current American Community Survey data are available, these years were selected to more closely correspond to the population estimate data used for calculating cancer incidence rates.
+                    </div>
+    
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq6">
+                        What is Census and American Community Survey data?
+                        </button>
+                    </h2>
+                    <div id="faq6" class="usa-accordion__content" hidden="">
+                        For the purposes of determining voting districts and congressional Representation, the U.S. Census is required by the Constitution to count everyone in the country every 10 years, but they do a lot more than that. The <a target="_blank" href="https://www.census.gov/programs-surveys/acs">American Community Survey</a> (ACS) has been conducted by the U.S. Census Bureau since 2005 and provides detailed population and housing information replacing data previously collected on the Census long form.
+                    </div>
+    
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq7">
+                        Why do some zones not have incidence rates?
+                        </button>
+                    </h2>
+                    <div id="faq7" class="usa-accordion__content" hidden="">
+                        To ensure confidentiality and stable statistical rates, cancer incidence rates are not reported if based on fewer than <span class="reportingMinCases">[REPLACE REPORTING MIN CASES]</span> cancer cases.
+                    </div>
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq9">
+                        Why are data not available for other or more granular racial/ethnic groups (e.g., American Indians, Asian or Latinx ethnic groups) or non-binary genders?
+                        </button>
+                    </h2>
+                    <div id="faq9" class="usa-accordion__content" hidden="">
+                        We have not reported small-area level cancer incidence data for smaller racial/ethnic groups or non-binary genders due to small cancer case counts and population estimates at the zone levels to ensure confidentiality and stable statistical rates. In addition, at this time, some of these data are not consistently collected within the <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Registry nor available in population estimate data.
+                    </div>
+    
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq10">
+                        Does my neighborhood influence my cancer risk? What factors in my neighborhood contribute to the cancer incidence rate?
+                        </button>
+                    </h2>
+                    <div id="faq10" class="usa-accordion__content" hidden="">
+                        Studies have shown that where we live (and work and learn) affect our opportunities for physical activity, social engagement and support, access to healthy and affordable food, and exposure to stress and harmful chemicals. These factors can influence opportunities for health promotion and disease prevention.
+                        <br/><br/>
+                        Cancer is a group of diseases with many possible causes including genetic and clinical factors as well as social determinants of health. Common risk factors for cancer include smoking and tobacco use, diet and physical activity, sun and other types of radiation, viruses (e.g., HPV, Hepatitis B and C), chronic inflammation, and environmental exposures. Neighborhoods may influence cancer through multiple pathways including material deprivation, psychosocial mechanisms, health behaviors, and access to resources.
+                    </div>
+    
+                    <h2 class="usa-accordion__heading">
+                        <button class="usa-accordion__button" aria-expanded="false" aria-controls="faq11">
+                            Why are neighborhood data on population sociodemographic factors provided? Do they cause cancer?
+                        </button>
+                    </h2>
+                    <div id="faq11" class="usa-accordion__content" hidden="">
+                        The neighborhood data are provided to characterize the zones based on several key social and built environment attributes. These are unrelated measures of neighborhood characteristics and cancer incidence, so inferences regarding causes of cancer cannot be made. We have provided these data for the zones to help provide additional context for the observed cancer incidence rates. For example, if a zone has high colorectal cancer incidence rates, understanding the population-level characteristics of that zone can help community organizations and healthcare facilities target their screening and prevention programs toward the predominant populations within the zone.
+                        <br/><br/>
+                        Neighborhood measures were developed using data from census tracts. We used the tract-level count data from the Census and American Community Survey to calculate measures for each zone.
+                    </div>
+					
+                </div><!--/accordion-->
+            </div><!--/tab-pane -->
+            <div class="tab-pane container" id="learn-glossary">
+                <!--
+                note that these are the same as the #tooltips_contents ... mostly
+                because some terms do not have a tooltip and some terms have slightly different text, they are maintained separately
+                -->
+                <p>
+                    <b>Aggregation:</b> Collections of smaller units grouped together for the purposes of statistical reporting. See Methodology for more information.
+                </p>
+                <p>
+                    <b>Age-Adjusted Incidence Rate (AAIR):</b> Age-adjustment is a statistical method that allows comparisons of incidence rates to be made between populations with different age distributions. This is important since the incidence of most cancers increases with age. An age-adjusted cancer incidence (or death) rate is defined as the number of new cancers (or deaths) per 100,000 population that would occur in a certain period of time if that population had a ‘standard’ age distribution. In the <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Maps, incidence rates are age-adjusted using the <a href="https://www.census.gov/census2000/states/us.html" target="_blank">U.S. 2000 Standard Population</a>.
+                </p>
+                <p>
+                    <b>% Below Poverty:</b> Percent of population below poverty level in the past 12 months.<br> 
+                    <span class="source">Sources:</span> 
+                </p>
+                <ul class="source">
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+                <p>
+                    <b>Confidence Interval:</b> A statistical measure of the precision of the observed incidence rate. The lower confidence interval (LCI) and upper confidence interval (UCI) provide a range within which the true rate is thought to be with 95% confidence. Rates based on larger numbers of cases are subject to less variation.
+                </p>
+                <p>
+                    <b>Data Suppression:</b> To ensure confidentiality and stable statistical rates, cancer incidence rates are not reported if based on fewer than <span class="reportingMinCases">[REPLACE REPORTING MIN CASES]</span> cancer cases.
+                </p>
+                <p>
+                    <b>Demographics:</b> Statistical data relating to the population and particular groups within it.
+                </p>
+                <p>
+                    <b>% Did Not Finish High School:</b> Percent of population with less than a high school graduate education.<br>
+                    <span class="source">Sources:</span> 
+                </p>
+                <ul class="source">
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+                <p>
+                    <b>% Foreign Born:</b> Percent of population that is foreign born.<br>
+                    <span class="source">Sources:</span> 
+                </p>
+                <ul class="source">
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+                <p>
+                    <b>Incidence:</b> The number of new cases of cancer diagnosed in the selected time period.
+                </p>
+                <p>
+                    <b>Race/Ethnicity:</b> Race/Ethnicity: Race/ethnicity is categorized as: All races/ethnicities, Non-Hispanic (NH) White, NH Black, or Hispanic. "All races" includes all of the above, as well as other and unknown race/ethnicity, Asian/Pacific Islander, and American Indian/Alaska Native. The latter two groups are not reported separately due to small numbers for many cancer sites in <span class="stateName">[REPLACE STATE/REGISTRY]</span>. 
+                </p>
+                <p>
+                    <b>Racial/Ethnic Composition:</b> Distribution of residents’ race/ethnicity (e.g., % Hispanic, % non-Hispanic White, % non-Hispanic Black, % non-Hispanic Asian/Pacific Islander).<br>
+                    <span class="source">Source: US Census, 2010.</span>
+                </p>
+                <p>
+                    <b>Rural:</b> Percent of residents who reside in blocks that are designated as rural.<br>
+                    <span class="source">Source: US Census, 2010.</span>
+                </p>
+                <p>
+                    <b>Sex:</b> <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Registry defines this field as the sex or gender of the cancer patient, and codes available are male, female, intersex, transsexual, and transgender (natal male, natal female, or not specified). However, categories beyond male and female are not consistently coded by medical reporting facilities, and population estimates for gender categories beyond male and female are not available. Thus, cancer incidence data are reported for only male and female sex at this time.
+                </p>
+                <p>
+                    <b>% With Bachelors Degree:</b> Percent of population with a bachelor’s degree or higher.<br>
+                    <span class="source">Sources:</span> 
+                </p>
+                <ul class="source">
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+                <p>
+                    <b>% With a Disability:</b> Percent of population with a disability.<br>
+                    <span class="source">Sources:</span> 
+                </p>
+                <ul class="source">
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+                <p>
+                    <b>% Without Health Insurance:</b> Percent of population without health insurance.<br>
+                    <span class="source">Sources:</span> 
+                </p>
+                <ul class="source">
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+                <!-- end of Definitions P items -->
+            </div><!--/tab-pane -->
+        </div><!--/tab-content-->
+    </div><!--/container section-->
+
+
+    <!--
+    section: footer
+    -->
+    <footer class="footer noprint">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-7 left small">
+                    This mapping tool is based on <a href="https://www.californiahealthmaps.org/">California Health Maps</a>, which is led by the Greater Bay Area Cancer Registry, University of California, San Francisco. Originally developed by <a href="https://www.greeninfo.org/" target="_blank">GreenInfo Network</a>,
+                </div>
+                <div class="col-sm-5 right small">
+                    <span class="citationInfo">[REPLACE CITATION INFO]</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--
+    not a visible section: HTML blocks for the tooltips; see initLayerTooltips()
+    note that other glossaries exist, and they are all managed separately because that's how it is
+    - the Glossary section of the Learn section, HTML above
+    - the data download ZIP files metadata, makedownloadzip.py
+    -->
+    <div id="tooltip_contents" tabindex="-1">
+	
+        <div aria-hidden="true" data-tooltip="source">
+            Zone and statewide incidence data come from <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Registry. National Program of Cancer Registries and Surveillance, Epidemiology and End Results Program SEER*Stat Database: NPCR and SEER Incidence - U.S. Cancer Statistics Public Use Research Database, 2021 Submission (2001-2019). United States Department of Health and Human Services, Centers for Disease Control and Prevention and National Cancer Institute. Released June 2022. Accessed at <a target="_blank" href="https://www.cdc.gov/cancer/uscs/public-use">www.cdc.gov/cancer/uscs/public-use</a>.
+        </div>		
+        <div aria-hidden="true" data-tooltip="race">
+            Race/ethnicity is categorized as: <span class="confirmRaceList">[CONFIRM RACE LIST]</span>. "All races" includes all of the above, as well as other and unknown race/ethnicity and American Indian/Alaska Native. The latter two groups are not reported separately due to small numbers for many cancer sites. 
+        </div>
+        <div aria-hidden="true" data-tooltip="location">
+            To be able to accurately search for an address, please include components of an address including street name and number and city, at a minimum. For example, “258 Chapman Rd, Newark".
+        </div>
+        <div aria-hidden="true" data-tooltip="sex">
+            <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Maps defines this field as the sex or gender of the cancer patient, and codes available are male, female, intersex, transsexual, and transgender (natal male, natal female, or not specified). However, categories beyond male and female are not consistently coded by medical reporting facilities, and population estimates for gender categories beyond male and female are not available. Thus, cancer incidence data are reported for only male and female sex at this time.
+        </div>
+        <div aria-hidden="true" data-tooltip="cases">
+            To ensure confidentiality and stable statistical rates, cancer incidence rates are not reported if based on fewer than <span class="reportingMinCases">[REPLACE REPORTING MIN CASES]</span> cancer cases.
+        </div>
+        <div aria-hidden="true" data-tooltip="aaircitable">
+            <b>Age-Adjusted Incidence Rate (AAIR):</b> Age-adjustment is a statistical method that allows comparisons of incidence rates to be made between populations with different age distributions. This is important since the incidence of most cancers increases with age. An age-adjusted cancer incidence (or death) rate is defined as the number of new cancers (or deaths) per 100,000 population that would occur in a certain period of time if that population had a ‘standard’ age distribution. In the <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Maps, incidence rates are age-adjusted using the <a target="_blank" rel="nofollow" href="https://www.census.gov/census2000/states/us.html">U.S. 2000 Standard Population</a>.
+            <br/>
+            <br/>
+            <b>LCI and UCI:</b> A statistical measure of the precision of the observed incidence rate. The lower confidence interval (LCI) and upper confidence interval (UCI) provide a range within which the true rate is thought to be with 95% confidence. Rates based on larger numbers of cases are subject to less variation.
+        </div>
+        <div aria-hidden="true" data-tooltip="PctMinority">
+            Percent of residents whose race/ethnicity is not non-Hispanic White.<br>
+            <span class="source">Source: US Census, 2010.</span>
+        </div>
+        <div aria-hidden="true" data-tooltip="PctHispanic">
+            Percent of residents whose race/ethnicity is Hispanic of any race.<br>
+            <span class="source">Source: US Census, 2010.</span>
+        </div>
+        <div aria-hidden="true" data-tooltip="PctBlackNH">
+            Percent of residents whose race/ethnicity is non-Hispanic Black.<br>
+            <span class="source">Source: US Census, 2010.</span>
+        </div>
+        <div aria-hidden="true" data-tooltip="PctAPI">
+            Percent of residents whose race/ethnicity is non-Hispanic Asian/Pacific Islander.<br>
+            <span class="source">Source: US Census, 2010.</span>
+        </div>        
+        <div aria-hidden="true" data-tooltip="PctRural">
+            Percent of residents who reside in blocks that are designated as rural.<br>
+            <span class="source">Source: US Census, 2010.</span>
+        </div>
+        <div aria-hidden="true" data-tooltip="PctNoHealthIns">
+            Percent of population without health insurance.<br>
+            <span class="source">Sources: 
+                <ul>
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+            </span>
+        </div>
+        <div aria-hidden="true" data-tooltip="PctBelowPov">
+            Percent of population below poverty level in the past 12 months.<br>
+            <span class="source">Sources: 
+                <ul>
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+            </span>
+        </div>
+
+        <div aria-hidden="true" data-tooltip="PctEducBchPlus">
+            Percent of population with a bachelor’s degree or higher.<br>
+            <span class="source">Sources: 
+                <ul>
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+            </span>
+        </div>
+
+        <div aria-hidden="true" data-tooltip="PctEducLHS">
+            Percent of population with less than a high school graduate education.<br>
+            <span class="source">Sources: 
+                <ul>
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+            </span>
+        </div>
+
+        <div aria-hidden="true" data-tooltip="PctDisabled">
+            Percent of population with a disability.<br>
+            <span class="source">Sources: 
+                <ul>
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+            </span>
+        </div>
+
+        <div aria-hidden="true" data-tooltip="Pct_forborn">
+            Percent of population that is foreign born.<br>
+            <span class="source">Sources: 
+                <ul>
+                    <li>5-year time period: American Community Survey, 2015-2019</li>
+                    <li>10-year time period: American Community Survey, 2010-2014 and 2015-2019</li>
+                </ul>
+            </span>
+        </div>
+
+    </div>
+
+    <!--
+    terms of use modal
+    not really a modal but a DIV which covers the map, search, and results
+    see initTermsOfUse() which sets the size & position, and closes it
+    -->
+    <div id="termsofusemodal" class="d-none">
+        <div>
+            <p>Use of <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Maps implies consent to abide by the terms of these data use restrictions. Any effort to determine the identity of any reported cases, or to use the information for any purpose other than for health statistical reporting and analysis, is against the law.</p>
+            <p>Therefore users will:</p>
+            <ul>
+                <li>Use these data for health statistical reporting and analysis only.</li>
+                <li>Make no attempt to learn the identity of any person or establishment included in these data.</li>
+                <li>Make no attempt to link to cancer data released with other geographic areas.</li>
+                <li>Make no disclosure or other use of the identity of any person or establishment discovered inadvertently and advise the <span class="stateName">[REPLACE STATE/REGISTRY]</span> Cancer Registry of any such discovery.</li>
+            </ul>
+            <p>By clicking the button below, I agree to these terms of use.</p>
+            <div class="center">
+                <button class="btn btn-alternate">I Agree</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

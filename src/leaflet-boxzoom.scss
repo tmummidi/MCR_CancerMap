@@ -1,0 +1,32 @@
+/*
+ * BOXZOOM
+ */
+.leaflet-control-boxzoom {
+    background-color:white;
+    border-radius: 4px;
+    border: 2px solid rgba(0,0,0,0.2);
+    width: 115px;
+    height: 32px;
+    line-height: 30px;
+    cursor:pointer !important;
+
+    /* special padding for this unusual content, not a icon-in-square anymore */
+    padding: 0px 5px 0 5px;
+}
+
+.leaflet-control-boxzoom.leaflet-control-boxzoom-active {
+    background-color: #aaaaaa;
+}
+
+.leaflet-container.leaflet-control-boxzoom-active {
+    cursor: crosshair !important;
+}
+
+.leaflet-control-boxzoom i {
+    font-size: 16px;
+
+    margin-right: 5px;
+}
+.leaflet-control-boxzoom span {
+    font-size: 16px;
+}

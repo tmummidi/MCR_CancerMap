@@ -1,0 +1,78 @@
+
+/*
+ * PRINTING
+ * support a .noprint CSS class for most cases, then program CSS exceptions below for inconvenient stuff
+ */
+
+.printonly {
+    display: none;
+}
+
+@media print {
+    .noprint {
+        display: none;
+    }
+    .printonly {
+        display: block;
+    }
+
+    i[data-tooltip] {
+        display: none;
+    }
+
+    #map {
+        .leaflet-control-zoom, .leaflet-control-boxzoom, .leaflet-layerpicker-control {
+            display: none;
+        }
+
+        .leaflet-choroplethlegend-control {
+    		.leaflet-choroplethlegend-headtext, .leaflet-choroplethlegend-closebutton {
+    			display: none;
+    		}
+    		select.leaflet-choroplethlegend-select {
+    			border: none !important;
+    			-moz-appearance: none;
+    			-webkit-appearance: none;
+    			appearance: none;
+    		}
+    	}
+    }
+
+    #logo-img-print {
+        position: absolute;
+        top: 0;
+        left: 15px;
+        z-index: 100000;
+        width: 290px;
+
+        background-color: white;
+
+        padding: 5px 10px 5px 0;
+
+        img {
+            float: left;
+            height: 67px;
+            margin-right: 8px;
+        }
+    }
+
+    #logo-page2-print {
+        img {
+            float: left;
+            height: 67px;
+            margin-right: 8px;
+        }
+    }
+
+    #demographic-tables {
+        table th span[role="heading"] {
+            display: block;
+            margin-bottom: 1em;
+        }
+    }
+
+    #incidence-barchart.printing {
+        /* see initPrintPage() and styles_datareadouts.scss for crazy hacks to resize the chart before printing */
+    }
+}
+

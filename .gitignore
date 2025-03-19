@@ -1,0 +1,8 @@
+.DS*
+.~lock*
+yarn-error.log
+node_modules/
+.htaccess
+.htpasswd
+robots.txt
+npm-debug.log

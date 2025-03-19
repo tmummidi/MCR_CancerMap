@@ -1,0 +1,68 @@
+/*
+ * ROW WITH FILTER SUMMARY AND AAIR BAR CHART
+ */
+
+#filters-and-aairbarchart {
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    div.data-filters-summary {
+        margin-bottom: 0.75em;
+
+        span[data-filter] {
+            display: table;
+            background-color: #6472B9;
+            color: white;
+            font-size: 16px;
+            padding: 5px;
+            margin-bottom: 10px;
+            position: relative;
+
+            &.data-filter-clear {
+                cursor: pointer;
+                padding: 5px 35px 5px 5px;
+            }
+
+            .summary-close {
+                background-color: #293985;
+                position: absolute;
+                right: 0;
+                top: 0;
+                height: 100%;
+                padding: 0 8px;
+            }
+
+            i {  /* X clear button */
+                line-height: 2.25;
+            }
+        }
+    }
+
+    #incidence-barchart-section {
+    }
+
+    #incidence-barchart {
+        height: 350px;  /* overridden in XXX based on the options in SEARCHOPTIONS_RACE, to achieve ideal spacing and height */
+        width: 100%;
+        margin-top: 10px;  /* spacing from the title above */
+
+        &.printing {
+            width: 475px; /* see initPrintPage() where we have hacks such as triggering a resize event to reflow the chart */
+        }
+    }
+
+    /* cities/counties location readout */
+    span[data-statistic="locations"] {
+        display: block;
+        margin-bottom: .5em;
+
+        div {
+            b {
+                font-weight: normal;
+                color: #666666;
+            }
+            span {
+            }
+        }
+    }
+}

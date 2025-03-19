@@ -1,0 +1,87 @@
+/*
+ * LEARN section at bottom
+ */
+
+div.container.learn-spacer {
+    margin-top: 0.4in;
+    margin-bottom: 0.2in;
+}
+
+
+div.container.learn-text {
+    margin-top: 30px;
+
+    padding-bottom: .5in;
+
+    .source {
+        font-weight: 600;
+        font-size: 14px;
+        color: #666666;
+    }
+
+    ul.source {
+        margin-top: -20px;
+    }
+    
+    li.nav-item {
+        .nav-link {
+            padding: .5rem;
+        }
+        
+        a {
+            background-color: #e6eaff;
+            color: #000000;
+            border-radius: 0;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        a.active {
+            background-color: #293985;
+            color: white;
+        }
+    }
+    
+    @media (max-width: 436px) {  /* form a preferred line-break point for the Learn tabs on really tiny screens */
+        .break {
+            flex-basis: 100%;
+            width: 0;
+        }
+        .nav li.nav-item:nth-child(n+4) {
+            margin-top: 10px;
+        }
+    }
+    
+    @media (max-width: 413px) {  /* form a preferred line-break point for the Learn tabs on really tiny screens */
+        .nav li.nav-item {
+            flex-basis: 100%;
+            margin-top: 10px;
+        }
+    }
+
+    div.tab-pane {
+        padding-top: 1em;
+        padding-right: 0;
+        padding-left: 0;
+
+        min-height: 50vh;  /* try to reduce the jumping effect as content of varying heights is swapped */
+    }
+
+
+    /* Toggle All FAQs button */
+    div.faqs_toggle {
+        text-align: right;
+        margin-bottom: .5rem;
+
+        button {
+             border: 0;
+             background-color: #f0f0f0;
+             box-shadow: none;
+             border-radius: 25px;
+             padding: 0.5rem 1rem;
+        }
+        button:focus {
+            outline:none;
+        }
+    }
+}

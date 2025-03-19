@@ -1,0 +1,63 @@
+/*
+ * LOGO
+ */
+
+#logo-img {
+    img {
+        // float: left; // commented out so image above text
+        margin-right: 8px;
+        height: 4.2em;
+        width: auto;
+    }
+}
+
+h1.site-title-1 {
+    color: #f99e26;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: -4px;
+}
+
+h1.site-title-2 {
+    font-weight: 400;
+    font-size: 28px;
+    text-transform: uppercase;
+}
+
+
+
+/*
+ * TOP INTRO TEXT
+ */
+
+div.container.intro-text {
+    @media screen and (max-width: 767px) {  /* hack to add margin to these, on small screens, so the spacing is nicer */
+        > div {
+            margin-top: 10px;
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+.intro-text a:link, .intro-text a:visited {
+    text-decoration: none;
+}
+
+#visitlearn {
+    /* override the .btn height and padding */
+    height: 25px;
+    padding: 1px 10px 0px 10px;
+    margin-left: 5px;
+}
+
+
+/*
+ * DOWNLOAD / PRINT BAR
+ * but not the Download button and its weird behaviors; that has its own stylesheet
+ */
+
+#above-map {
+    margin-bottom: 10px;
+}

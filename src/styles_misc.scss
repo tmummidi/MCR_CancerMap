@@ -1,0 +1,130 @@
+/*
+ * GENERAL STYLES
+ */
+
+* {  /* printing: yes, colors and images are important! */
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+}
+
+body, html {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color: #000000;
+    line-height: 24px;
+}
+
+h1 {
+    color: #293985;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+h2 {
+    color: #6472B9;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+h2.title {  /* a special type of H2 that's smaller; used to be H3 but ARIA says no */
+    color: #6472B9;
+    font-size: 21px;
+    font-weight: normal;
+}
+
+.title {
+    color: #6472B9;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.subtitle {
+    color: #6472B9;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.warnmessage {
+    background-color: #f99e26;
+    color: #000000;
+}
+
+hr {
+    border-top: 1px solid #CCCCCC;
+    margin: 0;
+}
+
+label { font-weight:normal; }
+
+a {
+    color: #000000;
+    &:hover, &:active {
+        color: #f99e26;
+    }
+    text-decoration: underline;
+}
+
+.lighten {
+    color: #CCCCCC;
+    fill: #CCCCCC;  /* for Highcharts which are SVG tspan elements */
+}
+
+.small {
+    font-size: 80%;
+    line-height: 18px;
+}
+
+.navbar {
+    display: block;
+}
+
+table {
+    thead {
+        th {
+            font-weight: normal;
+            background-color: white;
+            color: #666666;
+            vertical-align: bottom;
+            text-align: center;
+        }
+    }
+
+    tbody {
+        td, th[scope] {
+            background-color: white;
+            color: #666666;
+            font-size: 16px;
+        }
+    }
+
+    &.table-striped {  /* override Bootstrap color */
+        tbody {
+            tr:nth-child(odd) td {
+                background-color: #e6eaff;
+            }
+        }
+    }
+}
+
+i.fa-info-circle {  /* these are used exclusively for tooltip triggers, so get a cursor effect */
+    cursor: pointer;
+}
+
+
+
+
+/*
+ * OTHER UTILITY CLASSES
+ */
+
+.center { text-align:center !important; }
+.right { text-align:right !important; }
+.left { text-align:left !important; }
+.bold { font-weight:bold !important; }
+.nowrap { white-space:nowrap !important; }
+
+.rightfloat { float: right; }
+
+.pointer { cursor: pointer; }
+
+.nomargin { margin: 0; }
