@@ -1,3 +1,18 @@
+# Missouri cancer-map adaptation
+
+This repository contains an adaptation of the NCI/NAACCR zone-map template. The underlying template and license credit GreenInfo Network. The application is useful geospatial work; it is not an original mapping framework.
+
+## Verified state, 2026-09-29
+
+A clean dependency installation with npm ci --ignore-scripts and npm run build completed on Node 24.19.0. This verifies the build, not every map interaction or external service. The repository's .nvmrc still specifies Node 10.15.3 and is inconsistent with the current build stack.
+
+The default trees of this repository and tmummidi/Template-Map-Zone-County share 220 identical files among 237 shared file paths. Consolidation is pending a full history comparison, preservation of Missouri-specific data and a verified backup. Cancermap is another related snapshot with source and compiled assets but no root package manifest.
+
+Keep this repository as the likely canonical Missouri adaptation. Before a new release, document data provenance, verify geographic/data coverage and coordinate conventions, update the runtime declaration, and add a smoke test for filtering and map rendering. Do not claim clinical or public-health validity from a successful build.
+
+The original upstream documentation is preserved below.
+
+---
 
 # Cancer Mapping Template
 
